@@ -1,5 +1,6 @@
 package com.example.rabbitmq.controller;
 
+import com.example.rabbitmq.utils.MessageHelper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ public class senderController {
         manMap.put("messageId", messageId);
         manMap.put("messageData", messageData);
         manMap.put("createTime", createTime);
-        rabbitTemplate.convertAndSend("topicExchange", "topic.man", manMap);
+        //rabbitTemplate.convertAndSend("topicExchange", "topic.man", manMap);
+        rabbitTemplate.convertAndSend("topicExchange", "topic.man", MessageHelper.objToMsg(manMap));
         return "ok";
     }
 
@@ -38,7 +40,8 @@ public class senderController {
         womanMap.put("messageId", messageId);
         womanMap.put("messageData", messageData);
         womanMap.put("createTime", createTime);
-        rabbitTemplate.convertAndSend("topicExchange", "topic.woman", womanMap);
+        //rabbitTemplate.convertAndSend("topicExchange", "topic.woman", womanMap);
+        rabbitTemplate.convertAndSend("topicExchange", "topic.woman", MessageHelper.objToMsg(womanMap));
         return "ok";
     }
 

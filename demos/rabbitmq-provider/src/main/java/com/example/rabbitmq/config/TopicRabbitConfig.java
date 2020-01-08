@@ -14,17 +14,17 @@ public class TopicRabbitConfig {
 
     @Bean
     Queue firstQueue() {
-        return new Queue(TopicRabbitConfig.man);
+        return new Queue(TopicRabbitConfig.man,true);
     }
 
     @Bean
     Queue secondQueue() {
-        return new Queue(TopicRabbitConfig.woman);
+        return new Queue(TopicRabbitConfig.woman,true);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange("topicExchange");
+        return new TopicExchange("topicExchange",true,false);
     }
 
     //将firstQueue和topicExchange绑定,而且绑定的键值为topic.man
