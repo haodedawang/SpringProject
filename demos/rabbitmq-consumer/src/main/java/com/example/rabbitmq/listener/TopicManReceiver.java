@@ -14,10 +14,10 @@ import java.util.Map;
 @RabbitListener(queues = "topic.man")
 public class TopicManReceiver implements ChannelAwareMessageListener {
 
-    @RabbitHandler
-    public void process(Map testMessage) {
-        System.out.println("TopicManReceiver消费者收到消息  : " + testMessage.toString());
-    }
+//    @RabbitHandler
+//    public void process(Map testMessage) {
+//        System.out.println("TopicManReceiver消费者收到消息  : " + testMessage.toString());
+//    }
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
@@ -30,7 +30,7 @@ public class TopicManReceiver implements ChannelAwareMessageListener {
             String messageId=msgMap.get("messageId");
             String messageData=msgMap.get("messageData");
             String createTime=msgMap.get("createTime");
-            System.out.println("messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
+            System.out.println("deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             /*
             -----channel.basicAck(deliveryTag, multiple);
             consumer处理成功后，通知broker删除队列中的消息，如果设置multiple=true，表示支持批量确认机制以减少网络流量。
@@ -49,6 +49,8 @@ public class TopicManReceiver implements ChannelAwareMessageListener {
             如果channel.basicReject(8, false);表示deliveryTag=8的消息处理失败且将该消息直接丢弃。
              */
             channel.basicAck(deliveryTag, true);
+            //channel.basicReject(deliveryTag, true);
+            //channel.basicReject(deliveryTag, false);
         } catch (Exception e) {
             channel.basicReject(deliveryTag, false);
             e.printStackTrace();
