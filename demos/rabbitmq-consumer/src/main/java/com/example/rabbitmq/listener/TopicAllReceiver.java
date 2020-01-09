@@ -2,26 +2,20 @@ package com.example.rabbitmq.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.rabbitmq.client.Channel;
-import com.sun.javafx.collections.MappingChange;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
-
 @Component
-@RabbitListener(queues = "topic.man")
-public class TopicManReceiver implements ChannelAwareMessageListener {
-
-//
+@RabbitListener(queues = "topic.woman")
+public class TopicAllReceiver implements ChannelAwareMessageListener {
 //    @RabbitHandler
 //    public void process(Message testMessage) {
-//        System.out.println("TopicManReceiver消费者收到消息  : " + testMessage.toString());
+//        System.out.println("TopicALLReceiver消费者收到消息  : " + testMessage.toString());
 //    }
-
 
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
@@ -51,8 +45,8 @@ public class TopicManReceiver implements ChannelAwareMessageListener {
             如果channel.basicReject(8, true);表示deliveryTag=8的消息处理失败且将该消息重新放回队列。
             如果channel.basicReject(8, false);表示deliveryTag=8的消息处理失败且将该消息直接丢弃。
              */
-            Thread.sleep(1000);
-            System.out.println("deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
+            Thread.sleep(5000);
+            System.out.println("我是allListener：：deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             channel.basicAck(deliveryTag, true);
             //channel.basicReject(deliveryTag, true);
             //channel.basicReject(deliveryTag, false);
@@ -62,7 +56,4 @@ public class TopicManReceiver implements ChannelAwareMessageListener {
         }
 
     }
-
-
-
 }
