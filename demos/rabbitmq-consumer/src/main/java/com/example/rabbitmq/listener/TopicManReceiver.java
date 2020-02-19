@@ -52,7 +52,7 @@ public class TopicManReceiver implements ChannelAwareMessageListener {
             如果channel.basicReject(8, false);表示deliveryTag=8的消息处理失败且将该消息直接丢弃。
              */
             Thread.sleep(1000);
-            System.out.println("deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
+            System.out.println("我是man：deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             channel.basicAck(deliveryTag, true);
             //channel.basicReject(deliveryTag, true);
             //channel.basicReject(deliveryTag, false);

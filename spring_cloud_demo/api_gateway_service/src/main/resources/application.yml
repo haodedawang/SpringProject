@@ -1,0 +1,38 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway-service
+  redis:
+    host: 101.37.79.57
+    port: 6379
+    database: 0
+#配置路由
+  cloud:
+    gateway:
+      routes:
+      #路由id 到微服务的uri 断言（判断条件）
+        - id: producet-service #唯一
+          #uri: http://127.0.0.1:9001 #使用微服务地址和端口请求
+          uri: lb://product-service   #gateway注册到eureka后 使用服务名称请求 lb:// 表示根据服务名称从eureka中拉取服务地址
+          predicates:
+            - Path=/product-service/** #断言条件 满足后全部拼接到uri后面 http://127.0.0.1:9001/product/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@pathKeyResolver}' #使用SPEL表达式从容器中获取对象
+                redis-rate-limiter.replenishRate: 1  # 填充速度,每秒
+                redis-rate-limiter.burstCapacity: 3  # 令牌桶的容积
+            - RewritePath=/product-service/(?<segment>.*),/$\{segment} #路径重写过滤器
+
+eureka:
+  instance:
+    # 心跳检测检测与续约时间
+    # 测试时将值设置设置小些，保证服务关闭后注册中心能及时踢出服务
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/
+

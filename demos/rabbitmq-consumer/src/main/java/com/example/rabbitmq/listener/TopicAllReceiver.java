@@ -45,8 +45,8 @@ public class TopicAllReceiver implements ChannelAwareMessageListener {
             如果channel.basicReject(8, true);表示deliveryTag=8的消息处理失败且将该消息重新放回队列。
             如果channel.basicReject(8, false);表示deliveryTag=8的消息处理失败且将该消息直接丢弃。
              */
-            Thread.sleep(5000);
-            System.out.println("我是allListener：：deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
+            Thread.sleep(1000);
+            System.out.println("我是allListener：deliveryTag:"+deliveryTag+"  messageId:"+messageId+"  messageData:"+messageData+"  createTime:"+createTime);
             channel.basicAck(deliveryTag, true);
             //channel.basicReject(deliveryTag, true);
             //channel.basicReject(deliveryTag, false);
